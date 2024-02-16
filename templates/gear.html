@@ -1,0 +1,610 @@
+{% extends 'base.html' %}
+{% block head%}{% endblock %}
+
+{% block body%}
+<div id="div1-1">
+	<h4>Introduction</h4>
+	<p class="red">WORK IN PROGRESS, 60%</p>
+	<h2>Sound quality is a myth.</h2>
+	<p>
+		(February 8th, 2023)
+	</p>
+	<p id="pres">
+		We often think that expensive products are better, that expensive headphones, speakers or IEMs have a better
+		sound quality, or are more neutral.
+		But let's step back for a second and ask ourselves: what really is "sound quality"? Is it even objectively
+		definable? Is "neutral sound" even a thing?
+		Is there even a correlation between price and "sound quality"?
+		<br>
+		Hint: the answer is in the title..
+	</p>
+	<p>
+		Let's be honest: the audio world is full of marketing bullshit, and makes you believe that you need things in
+		order to have a better audio experience (like Hi-res files [which I briefly talk about on <a href="nerd#dog_res"
+			target="_blank" class="link">this page</a>], or IEMs with lots
+		of drivers). But how can you tell the true from the false? Why is it that when some people describe certain
+		headphones as
+		having incredible sound quality, others find it unlistenable? Okay, that's a lot of questions, and to answer
+		them, we need to go back to the basics. If you'd like to get your head around all this fog, then read on. I
+		promise
+		you: it's going to be interesting!
+	</p>
+	<br>
+	<div class="center noborder">
+		<img src="static\img\gear\yuzuki_smug.png">
+		<p class="keqing">
+			Yuzuki :3
+		</p>
+	</div>
+	<p class="red">
+		Disclaimer, I could be totally wrong: everything on this article is based on my knowledge and my personnal
+		experience. Some parts of the article are not backed up by scientific research.
+	</p>
+</div>
+<div id="div1">
+	<h4 class="white">Table of contents</h4>
+	<ul>
+		<li>
+			<a href="#The_basics" class="link">How to define sound? "Digital" sound ?</a>
+		</li>
+		<li>
+			<a href="#measure_types" class="link">How can you even measure the sound of headphones ?</a>
+		</li>
+		<ul>
+			<li>
+				<a href="#harmonic_distortion" class="link">Harmonic distortion</a>
+			</li>
+			<li>
+				<a href="#frequency_response" class="link">Frequency response</a>
+			</li>
+			<li>
+				<a href="#other_measures" class="link">What about all the other metrics ? Some websites show many
+					more graphs !</a>
+			</li>
+		</ul>
+		<li>
+			<a href="#we_all_hear_differently" class="link">So what's the catch then ?</a>
+		</li>
+		<ul>
+			<li>
+				<a href="#physical_variation" class="link">Our hearing isn't linear in sound level vs. Frequency because
+					of human
+					anatomy.</a>
+			</li>
+			<ul>
+				<li>
+					<a href="#hrtf" class="link">What is an HRTF ?</a>
+				</li>
+				<li>
+					<a href="#acoustic_impedance" class="link">What is acoustic impedance ?</a>
+				</li>
+				<li>
+					<a href="#why_does_it_matter" class="link">Why does it matter ?</a>
+				</li>
+			</ul>
+			<li>
+				<a href="#impossible_to_standardize" class="link">Headphone measurements are impossible to
+					standardize.</a>
+			</li>
+			<ul>
+				<li>
+					<a href="#the_target_nightmare" class="link">The target nightmare.</a>
+				</li>
+				<ul>
+					<li>
+						<a href="#what_is_a_target" class="link">What is a target ?</a>
+					</li>
+					<li>
+						<a href="#raw_vs_compensated_measurement" class="link">Raw vs. Compensated measurement</a>
+					</li>
+					<li>
+						<a href="#different_target" class="link">Everyone uses a different target.</a>
+					</li>
+					<li>
+						<a href="#target_examples" class="link">Some examples of science-based targets</a>
+					</li>
+					<ul>
+						<li>
+							<a href="#the_harman_target" class="link">The Harman Target: it is not what you think it
+								is.</a>
+						</li>
+						<li>
+							<a href="#the_diffuse_field_target" class="link">The Diffuse Field target: the current
+								standard
+								(in my opinion).</a>
+						</li>
+					</ul>
+				</ul>
+				<li>
+					<a href="#different_measurement_rig" class="link">Everyone uses a different measurement rig.</a>
+				</li>
+			</ul>
+		</ul>
+		<li>
+			<a href="#the_nitty_gritty" class="link">Enough theory, let's get down to the
+				nitty-gritty !</a>
+		</li>
+		<ul>
+			<li>
+				<a href="#we_all_hear_differently" class="link">Neutral sound doesn't exist, but..</a>
+			</li>
+			<li>
+				<a href="#correlation_with_price" class="link">There is no correlation between price and audio
+					quality.</a>
+			</li>
+			<li>
+				<a href="#subjective_qualities" class="link">All the subjective qualities of a headphone can be
+					explained by its frequency response.</a>
+			</li>
+			<li>
+				<a href="#we_all_hear_differently" class="link">Sound quality is a myth, kind of.</a>
+			</li>
+		</ul>
+	</ul>
+</div>
+<div id="div1-1">
+	<h4>1. The basics</h4>
+	<h2 id="The_basics">How to define sound? "Digital" sound ?</h2>
+	<p id="pres">
+		Yeah well sorry but we have to start from that far away. I will skip this part in this article because it's not
+		really exiting, but if you want
+		to know more, <a href="nerd#Le_son_dans_le_monde_qui_nous_entoure" target="_blank" class="link">you can check
+			that section in my other article</a> (please use a traductor though, it's all in French
+		!).
+	</p>
+</div>
+<div id="div1-1">
+	<h4>2. Describe sound objectively</h4>
+	<h2 id="measure_types">How can you even measure the sound of headphones ?</h2>
+	<p>
+		Because yeah, before talking about sound quality, we have to know what it's based on!
+	</p>
+	<h3 id="harmonic_distortion">Harmonic distortion</h3>
+	<p>
+		Let's talk about the least important first: harmonic distortion. Basically, as soon as we find harmonics that
+		either shouldn't be there in a sound, or have the wrong sound level, it is harmonic distortion.
+		Since headphones or speakers are physical systems, this is somewhat unavoidable, as the driver in them will not
+		be able
+		to move exactly according to the electric signal received.
+	</p>
+	<p>
+		In practique though, <strong>harmonic distortion in headphones is 99% of the time inaudible, because
+			its level is very low</strong> and pretty much random. However, If you input a signal with
+		an excessive level (of bass for exemple,
+		that can be done
+		with EQ),
+		harmonic distortion starts to matter more, since increasing sound level will this will inevitably make the
+		distortion more audible.
+		<br>
+		If the driver isn't capable of producing a certain frequency range at a satisfactory
+		sound level, you'll need to EQ a lot. So much that harmonic distinction will be an issue. An example of this is
+		open-back headphones, where, because of the sound leaking, the bass tends to roll off significantly (cf. Doc.2).
+		If you try to compensate it with EQ,
+		the sound
+		will probably be weird.
+	<div class="center noborder">
+		<img src="static\img\gear\HD105dBtungsten.png">
+		<p class="keqing">
+			Doc.1: Harmonic distortion vs. frequency of the Modhouse Tungsten (105dB @ 1khz) <a
+				href="https://forum.headphones.com/t/modhouse-tungsten-measurements-official-discussion/22645?u=resolve"
+				target="_blank" class="link">Source</a>
+		</p>
+	</div>
+	</p>
+	<div class="spacer"></div>
+	<h3 id="frequency_response">Frequency response</h3>
+	<p>
+		Now comes the most important element when describing sound: frequency response! As its name implies, it
+		corresponds
+		to the sound level over a given frequency range (usually
+		from 20Hz to 20kHz since they correspond to the limits of human hearing). Easy right ? Well..not really. The
+		fact
+		that there are hundreds of ways to represent frequency response of a headphone is already a red flag.
+	</p>
+	<p>
+		If you want, you can compare graphs from Crinacle's database, Squiglink, Rtings or Soundguys: even if its the
+		same headphones, the
+		graphs will be different. I will explain why in the next section.
+	</p>
+	<p>
+		In any case, if you had to remember only one thing, it would be this: <strong>never read a FR graph
+			without knowledge of
+			the circumstances of the measurement.</strong>
+	</p>
+	<div class="center noborder">
+		<img src="static\img\gear\fr_hd650.png">
+		<p class="keqing">
+			Doc.2: A representation (among many others) of FR (frequency response) of the Sennheiser HD650.
+			Compensated graph. Rig: B&K 5128. Target: Diffuse Field. Tilt: -1dB/octave. <a
+				href="https://listener800.github.io/5128?share=Custom_Tilt,HD650&bass=0&tilt=-1&treble=0&ear=0"
+				target="_blank" class="link">Source</a>
+		</p>
+	</div>
+	<div class="spacer"></div>
+	<h3 id="other_measures">What about all the other metrics ? Some websites show many more graphs!</h3>
+	<p class="red">This section is a bit more advanced and theoretical.</p>
+	<p>
+		In one sentence, all the other metrics, like waterfall/CSD plots (descibing the decay of a sound at a given
+		frequency range, cf. Doc.3,4), squarewave responses or group delay, <strong>are both completely
+			useless, as they are not
+			at all representative of subjective experience, and irrelevant, as they are intrinsically linked to
+			frequency
+			response</strong>. Lemme explain.
+	</p>
+	<div style="padding-bottom: 10px;"></div>
+	<p><strong>Headphones are <a href="https://en.wikipedia.org/wiki/Linear_system" target="_blank" class="link">linear
+				systems</a>.</strong></p>
+	<p>
+		Basically, One certain input -> One certain output. A headphone will always behave the same way since its a
+		passive system.
+		The membrane that makes sound in a headphone moves according to the electric current it receives.
+	</p>
+	<p>
+		This also means that headphones are <a href="https://en.wikipedia.org/wiki/Minimum_phase" target="_blank"
+			class="link">minimum phase</a>. To explain what it is and what does it involve, let's say you
+		do an impulse response test with a headphone
+		(i.e. the measurement of membrane movement while inputing a very sudden variation in the signal, on a
+		extremely
+		short period of time).
+	</p>
+	<ul>
+		<li>
+			You will not be able to see any <a href="https://en.wikipedia.org/wiki/Pre-echo" target="_blank"
+				class="link">pre-echo</a>, since the membrane cant move before the signal reachs the
+			headphone
+		</li>
+		<li>
+			But you will see a decay of the impulse/a post-echo.
+		</li>
+		<li>
+			All frequencies aren't produced at the same time/with the same delay, and can move in time. That what we
+			call <a href="https://en.wikipedia.org/wiki/Group_delay_and_phase_delay" target="_blank" class="link">group
+				delay</a>. This isn't de case with linear phase systems, and it affects the timbre of the signal. It
+			isn't related with subjective perception of imaging as rtings tries to make you believe..
+		</li>
+	</ul>
+	<p>
+		One important property of minimum phase systems is that they behaves consistently between
+		time and frequency domains. This is very important, because it means that <strong>2 systems</strong>
+		(like 2 headphones) <strong>behaving the exact
+			same way in the frequency domain will also behave the same way in the time domain</strong> if they have the
+		same acoustic output impedance (see next section). I could stop
+		here, as this property explains just about everything !
+		<!-- retrouve l'article source!!!+insère image impulse resposne -->
+	</p>
+	<p>Let's give some examples nonetheless:</p>
+	<ul>
+		<li>
+			<a href="https://www.aes.org/e-lib/browse.cfm?elib=17441" target="_blank" class="link">Frequency response
+				has the biggest impact on sound and distortions in headphones are negligible as
+				long as they are not awful</a>
+		</li>
+		<li>
+			CSD plots: EQing the headphone modifies and can remove decay of the CSD plot like below
+		</li>
+		<div class="center noborder" style="padding-top: 20px;">
+			<img src="static\img\gear\CSDplot_beforeEQ.jpg">
+			<p class="keqing">Doc.3: CSD plot of the HD800 before EQ.</p>
+			<img src="static\img\gear\CSDplot_afterEQ.jpg">
+			<p class="keqing">Doc.4: CSD plot of the HD800 after EQ.</p>
+		</div>
+		<li>
+			Squarewave: EQing (with minimum phase EQ) a headphone to have the same FR as another headphone <a
+				href="https://www.head-fi.org/threads/headphones-are-iir-filters-graphs.566163/" target="_blank"
+				class="link">results in
+				the same squarewave response</a>
+		</li>
+		<li>
+			Impulse response: EQing (with minimum phase EQ) a headphone to have the same FR as another headphone <a
+				href="https://www.head-fi.org/threads/headphones-are-iir-filters-graphs.566163/" target="_blank"
+				class="link">results in
+				the same Impulse response</a>
+		</li>
+	</ul>
+	<p>
+		Funny pattern right ?
+	</p>
+	<p>
+		All this to say that even if the sound can be described with these metrics, there is really no point in using
+		them because they give the same information as the frequency response, but in a way that makes it almost
+		impossible to interpret subjective experience (what we are really hearing).
+	</p>
+	<div style="padding-bottom: 40px;"></div>
+	<p><strong>Tl;dr: Frequency response is the only metric you should care about, unless you do some hardcore
+			EQ.
+			In that case, harmonic distortion graphs can be useful.</strong>
+	</p>
+</div>
+<div id="div1-1">
+	<h4>3. Variation nightmare</h4>
+	<h2 id="we_all_hear_differently">So what's the catch then ?</h2>
+	<p>
+		Have you ever wondered how it's possible for there to be so many contradictory opinions on the same headphone ?
+		If
+		you take a look at some internet forums, you'll understand what I'm talking about, but when we're
+		talking about a
+		good monitor for example, this variation is much less important. So what's the problem ?
+	</p>
+	<h3>
+		Preferences doesn't explain the full story: <strong>we all hear differently</strong>. Like literally.
+	</h3>
+	<p>
+		You see where I'm going with this. That's why the idea of "neutral sound" is a bit stupid at the first place,
+		but more on that later. But then, what is it that really varies from one person to the next ?
+	</p>
+	<div class="spacer"></div>
+	<h2 id="physical_variation">Our hearing isn't linear in Sound level vs. Frequency because of human anatomy</h2>
+	<p>
+		Let's do a little experiment. If you're not in a totally silent environment, put your hands behind your ears, so
+		that they look like elephant ears, and listen carefully. Do it.
+	</p>
+	<p>
+		Do you notice any difference ? Yes, you can hear better upper midrange sounds! All this to say that the auditory
+		pinna among others, modify the sound before it reaches your eardrums. In our case, the pinna picks up some
+		sounds better than other sounds, and in particular sounds between 2khz and 8khz. They are amplified, and more
+		audible
+		to the human ear: that's what will call the ear-gain!
+	</p>
+	<div class="center noborder">
+		<img src="static\img\gear\harman2018.png">
+		<p class="keqing">
+			Doc.5: OE (over-ear) Harman Target 2018 on a sound level vs. frequency graph. We can see the ear-gain region
+			by the
+			elevation between around 2kHz and 8kHz. <a href="https://listener800.github.io/?share=Harman_2018_Target"
+				target="_blank" class="link">Source</a>
+		</p>
+	</div>
+	<div class="spacer"></div>
+	<h3 id="hrtf">What is an HRTF ?</h3>
+	<p>
+		Basically, an HRTF is <strong>a sum of all the alterations that sound receives</strong>, whether
+		through our pinna or ear-canal,
+		or even our own torso, before reaching our eardrum. Note that the HRTF varies depending on the sound
+		location. In our case, we are focusing on headphones, so that location variation isn't a problem, but we
+		have to take it into consideration nonetheless. Speakers aren't behaving the same way as headphones, so we can't
+		use the same target for example.
+	</p>
+	<p><strong>Please remember that nobody has the same HRTF, this is physically impossible.</strong> All
+		heads
+		and bodies are different, and that variation even exists between your two ears!</p>
+	<div class="spacer"></div>
+	<h3 id="acoustic_impedance">What is acoustic impedance ?</h3>
+	<p>
+		An oversimplified definition of acoustic impedance would be that <strong>it refers to the resistance
+			exerted by a medium</strong>
+		(the structure of the headphones, your ear-canal...) <strong>on a sound signal</strong>. Acoustic
+		impedance in headphones <strong>varies
+			with
+			frequency</strong>. All headphones have a different acoustic output impedance, while all humans have a
+		different acoustic
+		input impedance.
+	</p>
+	<p>
+		In a headphone, the higher the acoustic output impedance, the higher the sound variation will be. For example,
+		IEMs have a very high output impedence (because it's basically a closed box). Thus, different positioning or a
+		different HRTF will result in a drastically different sound.
+	</p>
+	<p>
+		For now, just remember that acoustic impedance affects the sound until reaches our auditory eardrum. Because it
+		is
+		frequency-dependent, it removes any form of consistency. For example,<span class="red"> if 2
+			headphones have the
+			same frequency
+			response on a measurement rig, since you
+			don't have the same acoustic input impedance as the dummy, and since the two headphones don't have the same
+			acoustic
+			output impedance, the sound will be totally different on your head.</span>
+		This is extremely important, as it is the source of many misconceptions. For example, it is for this reason that
+		EQing a headphone so that it has exactly the same frequency response as another (based on
+		measurements) doesn't result in an identical sound, but rather a very different one to our eardrum, even though
+		headphones are linear systems.
+	</p>
+	<div class="spacer"></div>
+	<h3 id="why_does_it_matter">Why does it matter ?</h3>
+	<p>
+		Does this variation really matter that much ? Well, if you're an average person who just wants to listen to
+		music, then not really. On the other hand, when it comes to measuring headphones, HRTF and acoustic impedance
+		are variables that are impossible to ignore. I would go so far as to say they are the reason why headphone
+		measurements are impossible to standardize.
+	</p>
+	<div style="padding-bottom: 30px;"></div>
+	<h2 id="impossible_to_standardize">Headphone measurements are impossible to standardize.</h2>
+	<p>
+		Headphones measurements are a mess. Here's why:
+	</p>
+	<h2 id="the_target_nightmare">The target nightmare.</h2>
+	<h3 id="what_is_a_target">What is a target ?</h3>
+	<p>Think of a target as an ideal frequency response, more or less arbitrarily defined by someone. They are often
+		represented by a dotted line on graphs. Personally, I
+		distinguish between two types of target:
+	</p>
+	<ul>
+		<li>
+			Science-based targets (this name is totally arbitrary). They are based either on scientific research, such
+			as the
+			Harman target, or on measurements in a controlled environment, such as the Diffuse Field (+tilt) target.
+		</li>
+		<div style="padding-bottom: 10px;"></div>
+		<li>
+			Preference targets. They are determined arbitrarily, without any real scientific research behind them,
+			but can nevertheless be inspired by them. Rtings and Sonarworks are using this type of target, but many
+			reviewers also use their own targets. In my opinion, preference targets are worthless, due to their cruel
+			lack of precision: since they are arbitrarily defined, <strong>they are by definition
+				subjective</strong>.
+		</li>
+	</ul>
+	<div class="spacer"></div>
+	<h3 id="raw_vs_compensated_measurement">Raw vs. Compensated measurement</h3>
+	<ul>
+		<li>
+			A <strong>raw measurement</strong> is a graphical representation of the measured frequency
+			response of a
+			headphone, which has not been compensated for by a target (cf. Doc.5,6,7).
+			<br>
+			In other words, what is measured by the measurement rig is displayed directly on the graph. The ear-gain is
+			still visible on a raw measurement (remember that a measurement rig is supposed to simulate human hearing).
+		</li>
+		<li>
+			A <strong>compensated measurement</strong> is quite the opposite. On a compensated measurement,
+			the target is basically flat, so the graph is much easier to interpret. (cf. Doc.2,9)
+		</li>
+	</ul>
+	<p>For a long time, I thought that raw measurements were better than compensated ones, because the target used was
+		clearly visible on the graph, but I was very much mistaken. Uncompensated measurements should not be used for
+		the following reasons:</p>
+	<ul>
+		<li>
+			First, because of the sine illusion, the presence of curves makes the measurement almost impossible to
+			interpret
+			correctly. On the left, you can see 2 curved lines and on the right, the difference in height between the
+			two. When the target is not straight, you can see that it's not really possible to interpret the graph
+			correctly.
+		</li>
+		<div class="spacer"></div>
+		<div class="center noborder">
+			<img src="static\img\gear\sine3.jpg">
+			<p class="keqing">
+				Doc.11: Curve-difference chart vs. actual curve difference.
+			</p>
+		</div>
+		<li>
+			Then, two raw measurements are not comparable with each other if they don't come from the same rig. This is
+			simply because
+			the measurement is raw, and the HRTF of the rig is therefore not compensated by the target.
+		</li>
+	</ul>
+	<div class="spacer"></div>
+	<h3>Everyone uses a different target.</h3>
+	<p class="red">Basically everyone uses a different target. Because of that, the audio
+		measurements we can find on the internet no longer make any sense, unless you're familiar with the target used.
+	</p>
+	<!-- A COMPLETER -->
+	<p>
+		However, let's talk a little more about the ones that are more relevant to use.
+	</p>
+	<div style="padding-bottom: 10px;"></div>
+	<p id="the_harman_target"><strong>The Harman Target: it is not what you think it is.</strong></p>
+	<p>Let's be clear: the harman target does not refer to a "neutral" sound and never has. The aim of the research
+		behind the harman target was as follows: to find a target (a headphone frequency response in the case of the
+		over-ear harman target) that appeals to the
+		population <strong>AVERAGE</strong>. That's about it.
+		<br>
+		Besides, a model has been set up to predict the percentage chance of an individual liking a certain frequency
+		response. <a
+			href="https://www.researchgate.net/publication/332210798_A_Statistical_Model_that_Predicts_Listeners%27_Preference_Ratings_of_Around-Ear_and_On-Ear_Headphones"
+			target="_blank" class="link">You can check the paper here.</a>
+	</p>
+	<p>
+		In summary, if a pair of headphones has a frequency response very close to the harman target on compatible
+		systems,
+		<strong>this means that there's a good chance that the majority of the population will like
+			the sound
+			of the headphones,
+			but this in NO WAY means that this will be the case for you</strong>: this is only a statistic on a
+		population and cannot
+		be applied on an individual scale.
+
+		Not really related to audio, but it's kind of the same idea as BMI. It has no value at the level of the
+		individual in terms of his or her state of health, but as it's practical to use, it's still widely used.
+	</p>
+	<p>
+		In addition, you'll notice that the harman target is extremely smoothed so as not to take too much risk in
+		preference prediction. The downside of this smoothing is that it masks more fine-grained information on the
+		target.
+	</p>
+	<p>
+		Finally, you should be careful if you decide to use the in-ear (IE) harman target, as the conditions of the
+		research
+		<a href="https://headphones.com/blogs/features/the-shape-of-iems-to-come#section-3-1" target="_blank"
+			class="link">leave doubts about the result obtained and the model developed.</a>
+	</p>
+	<div class="spacer"></div>
+	<div class="center noborder">
+		<img src="static\img\gear\harman2013.png">
+		<p class="keqing">
+			Doc.6: OE (over-ear) Harman target 2013 on a sound level vs. frequency graph. Many versions of the Harman
+			Target exists. <a href="https://listener800.github.io/?share=Harman_2013_Target" target="_blank"
+				class="link">Source</a>
+		</p>
+	</div>
+	<div style="padding-bottom: 40px;"></div>
+	<p id="the_diffuse_field_target"><strong>The Diffuse Field target: the current standard (in my
+			opinion).</strong></p>
+	<p>To explain what the Diffuse Field target is, and why this target is trully beautiful, let me put you in
+		context.
+	</p>
+	<p>
+		Imagine you're in a room with many loudspeakers with a completely neutral frequency response (in an anechoic
+		chamber). This room has the following property: no matter where you are in the room and no matter how you turn
+		your head, the sound will always be the same. This room is called a <strong>diffuse field</strong>.
+		<br>
+		A curve, the <strong>Diffuse Field curve</strong>, can therefore be determined by placing a
+		measurement dummy anywhere in the room, then measuring the
+		room's frequency response by emitting sound through the loudspeakers.
+
+		This frequency response is no longer neutral, but changed by the properties of the room.
+	</p>
+	<div class="spacer"></div>
+	<div class="center noborder">
+		<img src="static\img\gear\Lab_Akustik.jpg">
+		<p class="keqing">
+			Doc.7: Example of a diffuse field in a laboratory in Germany. Yes it is a bit creepy. <a
+				href="http://www.ratom-edition.com/Publikationen/Seminararbeit-Effekte.pdf" target="_blank"
+				class="link">Paper source</a>
+		</p>
+	</div>
+	<div class="spacer"></div>
+	<p>
+		Now let's think about what headphones are. Headphones consist of two loudspeakers that you place close to your
+		ears, and have the following property: no matter where you are in a room, and no matter how you turn your head,
+		the sound will always be the same.
+	</p>
+	<p>Interesting right!</p>
+	<p>It's easy to see why this curve is a good one to use. However, there is a catch. A study from Harman showed that
+		people
+		preferred "a new target that simulates the in-room response of a high-quality loudspeaker system calibrated in a
+		room" over the Diffuse Field curve (<a
+			href="https://www.researchgate.net/publication/287536305_Listener_preference_for_different_headphone_target_response_curves"
+			target="_blank" class="link">Paper source</a>). This is
+		quite logical, since listeners don't listen to music in a diffuse field. But what should we do then ?
+	</p>
+	<p>
+		The solution is that: apply a "tilt" to the frequency response ! This tilt often used is between -0.8 and
+		-1dB/octave. We attenuate the sound level progressively
+		according to frequency, in a similar way as loudspeakers with totally neutral FR in an anechoic chamber when
+		placed in a normal room. And tada~, the Diffuse Field taget is born!
+	</p>
+	<div class="center noborder">
+		<img src="static\img\gear\5128DF-1.png">
+		<p class="keqing">
+			Doc.8: Diffuse field target on a sound level vs. frequency graph. Adjusted with 5128's HRTF, and with a
+			-1dB/octave tilt to line up with average preferences. <a
+				href="https://listener800.github.io/5128?share=Custom_Tilt&bass=0&tilt=-1&treble=0&ear=0"
+				target="_blank" class="link">Source</a>
+		</p>
+	</div>
+	<div class="center noborder">
+		<img src="static\img\gear\DFtilt.png">
+		<p class="keqing">
+			Doc.9: Representation of the tilt used with the Diffuse field curve. Compensated graph. Tilt: -1dB/octave <a
+				href="https://listener800.github.io/5128?share=Custom_Tilt&bass=0&tilt=-1&treble=0&ear=0"
+				target="_blank" class="link">source</a>
+		</p>
+	</div>
+	<div class="spacer"></div>
+	<h3 id="different_measurement_rig">Everyone uses a different measurement rig.</h3>
+	<p>The main reason why it's impossible to standardize headphone measurements is this: everyone uses different
+		equipment to make measurements, in addition to doing them in their own way. As mentioned above, <strong
+			id="pres">all heads have a
+			different HRTF and acoustic impedance, and this also applies to dummies</strong>.
+		However, some rigs are more accurate than others. The most accurate one in existence is the B&K 5128, because
+		its
+		acoustic input impedence is the closest to a real human. So, when you
+		want to know the frequency response of a headphone, you should take measurements from this measuring rig
+		whenever possible. Here are some sources:
+	</p>
+</div>
+<div id="vide"></div>
+<div id="vide"></div>
+<script>classe("gear", "actif")</script>
+{% endblock %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="utf-8">
+	<meta content="testtest" property="og:title" />
+	<meta content="I love bread" property="og:description" />
+	<title>Shewi's website :3</title>
+	<link href="../static/css/monfichier.css" rel="stylesheet">
+	<meta content="#7B71CC" data-react-helmet="true" name="theme-color" />
+	{% block head%}{% endblock %}
+</head>
+
+<body>
+	<script>
+		window.onscroll = function () { scroll() };
+
+		function scroll() {
+			if (document.documentElement.scrollTop > 400) {
+				if (document.getElementById("div1").className != "cache") {
+					document.getElementById("div2").className = "anim";
+				}
+			}
+			if (document.documentElement.scrollTop > 2100) {
+				if (document.getElementById("div1").className != "cache") {
+					document.getElementById("div3").className = "anim";
+				}
+			}
+		}
+		function classe(quoi, classse) {
+			document.getElementById(quoi).className = classse
+		}
+	</script>
+	<br>
+	<div class="header">
+		<h1 id="title">
+			<a href="/" style="text-decoration: none; color:#FFFFFF;">
+				Shewii :D
+			</a>
+		</h1>
+	</div>
+	<div class="navbar">
+		<a id="acc" href="/" onclick='classe("acc", "actif"); classe("jpdb",""); classe("gear","")'>Accueil</a>
+		<a id="jpdb" href="nerd" onclick='classe("jpdb","actif");  classe("acc",""); classe("gear","")'>La musique, du
+			point de vue d'un nerd</a>
+		<a id="gear" href="gear" onclick='classe("gear","actif");  classe("jpdb",""); classe("acc","")'>Sound quality is
+			a myth.</a>
+		<a id="res" href="ressources"
+			onclick='classe("res","actif");  classe("jpdb",""); classe("acc",""); classe("gear","")'>Ressources</a>
+		<a id="nyaa" href="http://nyaa.pythonanywhere.com/">nyaa~</a>
+	</div>
+	<br>
+	{% block body%}{% endblock %}
+</body>
+
+</html>

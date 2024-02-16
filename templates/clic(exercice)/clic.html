@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Exemple JS</title>
+		<link rel="stylesheet" href="clic.css">
+	</head>
+	<body>
+		<h1 id="titre">titre</h1>
+		<p id="para">paragraphe</p>
+		<p id="monpara" onmouseover="mettrevert()" onmouseout="mettrerouge()">bonjour</p>
+		<p class ="rouge">rouge</p>
+		<p class = "vert">vert</p>
+		<button onclick="foncRouge()">Rouge</button>
+		<button onclick="foncVert()">Vert</button>
+		<button onclick="changePara()">Changer le paragraphe</button>
+
+		<script>
+			document.getElementById("titre").innerHTML = "Nouveau titre" //inclure js dans page web
+			var element = document.getElementById("titre")
+			element.style.color = "red"
+
+			for(let i = 10; i<= 200; i = i + 10) { //éléments de syntaxe
+				console.log("J'ai fait", i, "pompes!")
+			}
+			var monpara = document.getElementById("monpara") //mofidier les attributs html
+			monpara.classList.add("rouge");
+
+			function foncRouge() { //interaction
+				monpara.classList.remove("vert");
+				monpara.classList.add("rouge")
+			}
+
+			function foncVert() {
+				monpara.classList.remove("rouge");
+				monpara.classList.add("vert")
+			}
+			function mettrevert() { //programmation événementielle
+				monpara.classList.add("vert")
+				monpara.classList.remove("rouge")
+			}
+			function mettrerouge() {
+				monpara.classList.remove("vert")
+				monpara.classList.add("rouge")
+			}
+
+			function changePara() {
+				document.getElementById("para").innerHTML = "le paragraphe a changé!"
+			}
+
+		</script>
+		<style> <!-- équivalent en css-->
+			#para {color:"red";}
+		</style>
+	<body>
+</html>

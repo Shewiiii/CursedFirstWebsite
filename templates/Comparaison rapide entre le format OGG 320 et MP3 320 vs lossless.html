@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block head%}{% endblock %}
+
+{% block body%}
+<div id="div1-1">
+    <br>
+    <h2>Comparaison rapide entre le format OGG 320 et MP3 320 vs lossless</h2>
+    <p>
+        <a href="https://iamyunomi.bandcamp.com/album/feat-rinahamu-single" target="_blank" class="link">Fichier utilisé
+            dans ce test (lien Bandcamp, attention: weeb)</a>
+    </p>
+    <p>
+        Format:
+        <br>
+        Musique: 44.1kHz/16bits, mp3 320kbps, ogg 320kbps
+        <br>
+        Réponse impulsionelle, signal carré, sinulsoïde et multiton: 44.1kHz/16bits, mp3 320 kbps, ogg 320kbps, sans
+        tramage
+        <br>
+        Encodeur MP3 utilisé: LAME 3.100
+        <br>
+        Encodeur OGG utilisé: Audacity
+    </p>
+    <p>
+        Constat personnel: le MP3 est plus précis d'un point de vue fréquentiel sur la plage de fréquence audible. Le
+        OGG est plus précis d'un point de vue temporel.
+        Les artefacts audio sont: plus dans les aigus pour le MP3, et plus dans les graves/mediums pour le ogg, ce qui
+        les rend particulièrement audibles.
+        <del>Subjectivement, le timbre du signal carré en format OGG diffère énormément de l'original et je n'arrive pas
+            à comprendre pourquoi. Ce phénomène n'est pas audible avec le mp3, peut être un lien avec
+            la réponse en phase non consistante du ogg.</del>
+        <br>
+        <br>
+        Update 30/05/23: ajout du test SMPTE, et du coup je pense que c'est plutôt causé par le taux de distortion
+        d'intermodulation extrêmement élevé du ogg, je doutais qu'il y allait en avoir, mais à ce point là...
+        <br>
+        <br>
+        Update 31/05/23: finalement je n'arrive plus à reproduire ce phénomène, je pense que c'était juste un bug avec
+        foobar. Rien n'enlève le fait cependant que le taux d'IMD est élevé.
+    </p>
+    <br>
+    <p>
+        Delta sinewave flac/mp3 (attention: weeb je regrette d'avoir choisi ça lol):
+    </p>
+    <audio controls>
+        <source src="static/img/oggmp3/deltasinewavemp3.flac" type="audio/flac">
+        Non supporté par le navigateur.
+    </audio>
+    <br>
+    <br>
+    <p>
+        Delta sinewave flac/ogg:
+    </p>
+    <audio controls>
+        <source src="static/img/oggmp3/deltasinewaveogg.flac" type="audio/flac">
+        Non supporté par le navigateur.
+    </audio>
+    <br>
+    <br>
+    <br>
+    <img src="static\img\oggmp3\Deltaspectre mp3.jpg" class="wide">
+    <p class="keqing">
+        Doc.1: Delta spectre entre le fichier flac et le fichier mp3. Clip: 886
+    </p>
+    <img src="static\img\oggmp3\Deltaspectre ogg.jpg" class="wide">
+    <p class="keqing">
+        Doc.2: Delta spectre entre le fichier flac et le fichier ogg. Clip: 318, semble laisser une marge de volume.
+    </p>
+    <img src="static/img/oggmp3/spectredeltamp3.jpg" class="wide">
+    <p class="keqing">
+        Doc.3: Spectre du delta entre le fichier flac et le fichier mp3.
+    </p>
+    <img src="static/img/oggmp3/spectredeltaogg.jpg" class="wide">
+    <p class="keqing">
+        Doc.4: Spectre du delta entre le fichier flac et le fichier ogg.
+    </p>
+    <img src="static/img/oggmp3/réponse en phase mp3.jpg" class="wide">
+    <p class="keqing">
+        Doc.5: Réponse impulsionelle du fichier mp3.
+    </p>
+    <img src="static/img/oggmp3/réponse en phase ogg.jpg" class="wide">
+    <p class="keqing">
+        Doc.6: Réponse impulsionelle du fichier ogg.
+    </p>
+    <img src="static/img/oggmp3/phasezoommp3.jpg" class="wide">
+    <p class="keqing">
+        Doc.7: Réponse impulsionelle du fichier mp3 (zoomé).
+    </p>
+    <img src="static/img/oggmp3/phasezoomogg.jpg" class="wide">
+    <p class="keqing">
+        Doc.8: Réponse impulsionelle du fichier ogg (zoomé, pas consistant).
+    </p>
+    <img src="static/img/oggmp3/1K-1dbfs mp3.jpg" class="wide">
+    <p class="keqing">
+        Doc.9: Réponse sinulsoïde à 1kHz du fichier mp3 (zoomé).
+    </p>
+    <img src="static/img/oggmp3/1K-1dbfs ogg.jpg" class="wide">
+    <p class="keqing">
+        Doc.10: Réponse sinulsoïde à 1kHz du fichier ogg (applique un tramage !).
+    </p>
+    <img src="static/img/oggmp3/multitonemp3.jpg" class="wide">
+    <p class="keqing">
+        Doc.11: Réponse multiton du fichier mp3.
+    </p>
+    <img src="static/img/oggmp3/multitoneogg.jpg" class="wide">
+    <p class="keqing">
+        Doc.12: Réponse multiton du fichier ogg (?????).
+    </p>
+    <img src="static/img/oggmp3/SMPTE test mp3.jpg" class="wide">
+    <p class="keqing">
+        Doc.13: Test SMPTE du fichier mp3.
+    </p>
+    <img src="static/img/oggmp3/SMPTE test ogg.jpg" class="wide">
+    <p class="keqing">
+        Doc.14: Test SMPTE du fichier ogg.
+    </p>
+    <img src="static/img/oggmp3/carrémp3.jpg" class="wide">
+    <p class="keqing">
+        Doc.15: Réponse signal carré à 1Khz du fichier mp3.
+    </p>
+    <img src="static/img/oggmp3/carréogg.jpg" class="wide">
+    <p class="keqing">
+        Doc.16: Réponse signal carré à 1Khz du fichier ogg.
+    </p>
+    <img src="static/img/oggmp3/dw mp3.jpg" class="wide">
+    <p class="keqing">
+        Doc.17: Delta niveau sonore vs temps du fichier mp3.
+    </p>
+    <img src="static/img/oggmp3/dw ogg.jpg" class="wide">
+    <p class="keqing">
+        Doc.18: Delta niveau sonore vs temps du fichier ogg.
+    </p>
+    <img src="static/img/oggmp3/spectremp3zoom.jpg" class="wide">
+    <p class="keqing">
+        Doc.19: FFT du fichier mp3 comparé au flac (zoomé).
+    </p>
+    <img src="static/img/oggmp3/spectreoggzoom.jpg" class="wide">
+    <p class="keqing">
+        Doc.20: FFT du fichier ogg comparé au flac (zoomé).
+    </p>
+    <img src="static/img/oggmp3/flac.jpg" class="wide" id="doc19">
+    <p class="keqing">
+        Doc.21: Histogramme RMS du fichier flac.
+    </p>
+    <img src="static/img/oggmp3/mp3.jpg" class="wide">
+    <p class="keqing">
+        Doc.22: Histogramme RMS du fichier mp3.
+    </p>
+    <img src="static/img/oggmp3/ogg.jpg" class="wide">
+    <p class="keqing">
+        Doc.23: Histogramme RMS du fichier ogg.
+    </p>
+    <img src="static/img/oggmp3/stflac.jpg" class="wide">
+    <p class="keqing">
+        Doc.24: stats sur l'amplitude du fichier flac.
+    </p>
+    <img src="static/img/oggmp3/stmp3.jpg" class="wide">
+    <p class="keqing">
+        Doc.25: stats sur l'amplitude du fichier mp3, écrête de presque 1dBFS
+    </p>
+    <img src="static/img/oggmp3/stogg.jpg" class="wide">
+    <p class="keqing">
+        Doc.24: stats sur l'amplitude du fichier ogg, normalise à 0dBFS
+    </p>
+
+</div>
+<div id="vide"></div>
+
+</body>
+
+</html>
+{% endblock %}

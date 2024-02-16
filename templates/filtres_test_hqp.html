@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block head%}{% endblock %}
+
+{% block body%}
+<div id="div1-1">
+    <br>
+    <h2>Tests des filtres de reconstruction de HQPlayer</h2>
+    <p class="red">
+        Les valeurs ci-dessous ne respectent aucune norme de test et sont juste données pour référence. De plus, les
+        mesures ci-dessous n'ont presque aucune corrélation avec l'expérience audio subjective.
+    </p>
+    <p>
+        Logiciels utilisés:
+    </p>
+    <ul>
+        <li>HQPlayer Pro 4.21.0</li>
+        <li>Adobe Audition</li>
+    </ul>
+    <p>
+        Setup général:
+    </p>
+    <ul>
+        <li>Ryzen 5 5800X</li>
+        <li>Sans CUDA offload</li>
+        <li>Sans création de fichiers</li>
+        <li>Free running</li>
+        <li>5dBFS de marge de volume</li>
+    </ul>
+</div>
+<br>
+<div id="normal">
+    <h2>Temps de traitement</h2>
+    <p>
+        Ne prend PAS en compte le buffering, particulièrelent long lorsque le nombre de taps est élevé.
+        Valeur mesurée à l'aide de
+        <a href="https://deezer.page.link/WZPKhcHvkeGStZ6Z7" target="_blank" class="link">ce fichier</a>
+        (lien Deezer, téléchargé avec Deemix en FLAC 44.1/16).
+        Une valeur correspond au temps de processing en secondes du fichier*1000, en prenant la moyenne de 20 valeurs à
+        l'unité près.
+        <br>
+        <br>
+        Note: un temps de traitement trop élevé peut causer des interruptions dans la lecture. Le filtre
+        poly-sinc-gauss-xla peine à fonctionner sur des petites configs.
+        <br>
+        <br>
+        Paramètres:
+    </p>
+    <ul>
+        <li>convertion PCM 44.1khz 16bit stereo->PCM 352.8khz 24bit stereo</li>
+        <li>LNS15 noise-shaping</li>
+    </ul>
+    <img src="static/img/hqplayer/tps.jpg" class="wide">
+    <br>
+    <h2>Longueur du filtre</h2>
+    <p>
+        Test approximatif (~2 chiffres significatifs). Nombre d'échantillons supérieurs à -96dBFS dans un test de
+        réponse impulsionnelle.
+        <br>
+        Note: le maximum local entre 2 motifs côte à côte augmente/diminue respectivement de manière presque
+        exponentielle/logarithmique, ce qui explique l'apparition de valeurs très grandes pour le filtre sinc-M par
+        exemple.
+        <br>
+        <br>
+        Paramètres:
+    </p>
+    <ul>
+        <li>Convertion PCM 44.1khz 32bit float mono->PCM 352.8khz 24bit mono</li>
+        <li>LNS15 noise-shaping</li>
+        <li>Amplitude: -1dBFS (soit -6dBFS avec marge de volume)</li>
+    </ul>
+    <img src="static/img/hqplayer/longueur.jpg" class="wide">
+    <br>
+    <h2>Taille de la bande de transition</h2>
+    <p>
+        Paramètres:
+    </p>
+    <ul>
+        <li>Adobe: Taille TFR: 65536</li>
+        <li>Adobe: Blackman-Harris window</li>
+        <li>Convertion PCM 44.1khz 32bit float mono->PCM 352.8khz 24bit mono</li>
+        <li>sans noise-shaping</li>
+    </ul>
+    <img src="static/img/hqplayer/transition.jpg" class="wide">
+</div>
+<div id="vide"></div>
+
+</body>
+
+</html>
+{% endblock %}

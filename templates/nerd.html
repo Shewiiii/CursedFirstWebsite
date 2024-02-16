@@ -1,0 +1,838 @@
+{% extends 'base.html' %}
+{% block head%}{% endblock %}
+
+{% block body%}
+<div id="div1-1">
+    <h4>Introduction</h4>
+    <h2>La musique, du point de vue d'un nerd</h2>
+    <p>
+        (Fin Mai 2023)
+    </p>
+    <p id="pres">
+        Ne vous êtes-vous jamais posé la question suivante: "comment arrive-t-on à partir d'un simple fichier audio sur
+        le bureau de notre ordinateur, constitué de bits, arrive-t-on à produire du son, qui plus est très fidèle au son
+        d'origine" ?
+        Dit comme ça on dirait presque de la magie, et avant d'investiguer un peu sur le sujet, j'en savais quand même
+        foutrement rien. Je n'ai pas commencé à faire des recherches à une date précise, mais ce dont je vais vous
+        parler est
+        plutôt le fruit de plusieurs années de scroll sur des forums, de regardage de vidéos, et de lecture de trucs
+        random sur Wikipedia pendant mon temps libre.
+    </p>
+    <p>
+        J'ai décidé d'écrire ces lignes après m'être rendu compte à quel point peu de personnes, même sur internet,
+        parviennent
+        vraiment à répondre à cette question. <a href="https://en.wikipedia.org/wiki/Sinc_filter" target="_blank"
+            class="link">Certains concepts</a> utilisés dans le processus n'ont même pas de page Wikipedia en français !
+    </p>
+    <p>
+        Du coup, pour rendre justice à tout ça, laissez-moi maintenant vous guider dans ce vaste monde
+        d'une complexité sans nom qui est le traitement du signal (surtout) numérique et analogique.
+    </p>
+    <div class="center noborder">
+        <img src="../static/img/nerd/keqing_thinking.png">
+        <p class="keqing">
+            Désolé ça manquait un peu de weeberie à mon goût :)
+        </p>
+    </div>
+    <p class="red">
+        Attention: ne prenez pas les informations qui vont suivre pour une vérité absolue! Je vais faire de mon mieux
+        pour ne pas dire n'importe quoi, mais ces dernières seront vulgarisées au maximum pour que tout le monde puisse
+        comprendre
+        facilement (et surtout pour que ça ne soit pas trop chiant à lire).
+    </p>
+</div>
+<div id="div1">
+    <h4 class="white">Sommaire (un peu bugué)</h4>
+    <ul>
+        <li>
+            <a href="#Le_son_dans_le_monde_qui_nous_entoure" class="link">Le son dans le monde qui nous entoure</a>
+        </li>
+        <ul>
+            <li>
+                <a href="#Un_son_c'est_quoi_au_juste" class="link">Un son c'est quoi au juste ?</a>
+            </li>
+            <li>
+                <a href="#Dans_le_domaine_temporel" class="link">Dans le domaine temporel</a>
+            </li>
+            <ul>
+                <li>
+                    <a href="#période" class="link">Sa période (à finir)</a>
+                </li>
+                <li>
+                    <a href="#fréquence_et_amplitude" class="link">Sa fréquence et son amplitude</a>
+                </li>
+                <li>
+                    <a href="#timbre" class="link">Son timbre</a>
+                </li>
+            </ul>
+            <li>
+                <a href="#Dans_le_domaine_fréquentiel" class="link">Dans le domaine fréquentiel</a>
+            </li>
+            <ul>
+                <li>
+                    <a href="#harmoniques" class="link">Ses harmoniques</a>
+                </li>
+                <li>
+                    <a href="#dynamique" class="link">Sa dynamique sonore</a>
+                </li>
+            </ul>
+        </ul>
+        <li>
+            <a href="#son_numérique" class="link">Un son..numérique ?</a>
+        </li>
+        <ul>
+            <li>
+                <a href="#échantillonage" class="link">L'échantillonage</a>
+            </li>
+            <li>
+                <a href="#quantification" class="link">La quantification</a>
+            </li>
+            <li>
+                <a href="#tramage" class="link">Optionnel: le tramage et le noise-shaping</a>
+            </li>
+        </ul>
+        <li>
+            <a href="#Du_coup,_comment_passer_de_l'un_à_l'autre_?" class="link">Du coup, comment passer de l'un à
+                l'autre ?</a>
+        </li>
+        <ul>
+            <li>
+                <a href="#théorème_de_Shannon" class="link">Le théorème de Shannon</a>
+            </li>
+            <li>
+                <a href="#suréchantillonage" class="link">Le suréchantillonage</a>
+            </li>
+            <li>
+                <a href="#filtre_de_reconstruction" class="link">Les filtres de reconstruction audio</a>
+            </li>
+            <ul>
+                <li>
+                    <a href="#ordre_zéro" class="link">Le filtre bloqueur d'ordre zéro</a>
+                </li>
+                <li>
+                    <a href="#ordre_un" class="link">Le filtre bloqueur d'ordre un</a>
+                </li>
+                <li>
+                    <a href="#filtre_sinc" class="link">Le filtre sinc idéal</a>
+                </li>
+            </ul>
+            <li>
+                <a href="#résumé" class="link">Résumons.</a>
+            </li>
+        </ul>
+        <li>
+            <a href="#Bon_très_bien_mais,_ça_donne_quoi_au_final_?" class="link">Bon très bien mais, ça donne quoi au
+                final ? (Distortions)</a>
+        </li>
+        <ul>
+            <li>
+                <a href="#bruit" class="link">Le bruit</a>
+            </li>
+            <li>
+                <a href="#thd" class="link">La distortion harmonique</a>
+            </li>
+            <li>
+                <a href="#imd" class="link">La distortion d'intermodulation</a>
+            </li>
+            <li>
+                <a href="#en_bonus" class="link">En bonus</a>
+            </li>
+        </ul>
+        <li>
+            <a href="#formats_audio" class="link">Les différents formats audio</a>
+        </li>
+        <ul>
+            <li>
+                <a href="#La_partie_fun_démonter_des_idées_reçues_sur_les_formats_audio" class="link">La partie fun:
+                    démonter des idées reçues sur les formats audio</a>
+            </li>
+            <ul>
+                <li>
+                    <a href="#dog_res" class="link">Le "Hi-res" audio</a>
+                </li>
+                <li>
+                    <a href="#mp3" class="link">Le diabolique mp3 (à finir)</a>
+                </li>
+            </ul>
+        </ul>
+    </ul>
+</div>
+<div id="div1-1">
+    <h4>1. Définitions</h4>
+    <h2 id="Le_son_dans_le_monde_qui_nous_entoure">Le son dans le monde qui nous entoure</h2>
+    <p id="pres">
+        Bon, on commence par la partie barbante digne des cours d'ES physique, mais elle s'en avère pas moins nécessaire
+        pour comprendre tout le reste. Sautez ces parties si vous savez déjà ce que c'est, sinon je vais essayer de
+        faire concis.
+    </p>
+    <h3 id="Un_son_c'est_quoi_au_juste">Un son c'est quoi au juste ?</h3>
+    <p>
+        D'abord, vous savez probablement que l'air, constitué de molécules, est présente partout autour de nous: c'est
+        un milieu matériel élastique. Et bien ce que l'on va appeller un son ou plus exactement une onde sonore est tout
+        simplement
+        la perturbation dans ce milieu, qui va causer un déplacement de ces molécules dans l'espace en se propageant.
+        D'ailleurs, comme il n'y a pas de molécule dans le vide, le son ne peut pas s'y propager, mais cela est tout à
+        fait possible dans de l'eau ou du métal par exemple.
+        De plus, cette perturbation est locale et temporaire, elle transporte de plus certes de l'énergie mais pas de
+        matière.
+    </p>
+    <p>
+        Pour produire une onde sonore, il suffit donc de faire bouger quelque chose de matériel dans le milieu/l'air à
+        une amplitude et une fréquence assez élevée pour que cette dernière soit audible!
+    </p>
+    <p>
+        Enfin, nous pourrons modéliser cette onde sonore sous la forme du graphique suivant, avec en abscisse le temps,
+        et en ordonnée l'amplitude. La courbe est donc la représentation de la perturbation que subit l'air:
+    </p>
+    <img src="../static/img/nerd/Adobe_sine.jpg">
+    <p class="keqing">
+        Doc.1: Graphique représentant un son sinulsoïdal par son amplitude en fonction du temps.
+    </p>
+    <p>
+        Voilà je vais pas faire plus long pour cette définition sinon je risque de m'endormir. Voyons comment elle peut
+        se caractériser.
+    </p>
+    <h2 id="Dans_le_domaine_temporel">Dans le domaine temporel :</h2>
+    <h3 id="période">Par sa période</h3>
+    <p>
+        à remplir
+    </p>
+    <div class="spacer"></div>
+    <h3 id="fréquence_et_amplitude">Sa fréquence et son amplitude</h3>
+    <p>
+        (note: Le terme "signal" est utilisé dans le cas où le son est étudié sous la forme d'une courbe dans le domaine
+        temporel.)
+    </p>
+    <p>
+        La <strong>fréquence</strong> éxprimé en Hertz (Hz) d'un signal sonore est le <strong>nombre
+            de fois où le motif élémenaire qui le compose se répète par seconde</strong> dans le cas d'un son
+        périodique.
+        Un signal complexe (ex: une musique) est une superposition de plusieurs fréquences sonores, soit plusieurs
+        sinulsoïdes.
+        Tout <strong>signal complexe peut être reconstitué par la
+            <a href="https://fr.wikipedia.org/wiki/Transformation_de_Fourier" target="_blank" class="link">transfomée de
+                Fourier</a>
+            à l'aide de toutes les sinulsoïdes aux fréquences qui compose ce dernier.</strong>
+        C'est grâce à lui que l'on peut aujourd'hui entre autres tracer de beaux spectres audio facilement à l'aide d'un
+        logiciel comme Adobe Audition (voir doc.2).
+    </p>
+    <p>
+        L'<strong>amplitude</strong>, pouvant être exprimée en décibels (dB SPL, signal analogique),en volts
+        (V, signal électrique) ou encore en décibels pleine échelle (dBFS, avec valeurs négatives correspondant au
+        niveau sonore avant saturation dans signal numérique),
+        <strong>correspond tout simplement à la valeur la plus élevée d'un signal donné</strong>. Plus cette
+        amplitude est élevée, plus la perturbation des molécules qui compose le milieu de propagation, sera importante.
+    </p>
+    <p>
+        Si vous n'arrivez pas à visualiser, dites-vous juste que c'est l'espace entre la ligne rouge dans le doc.1, et
+        la pointe la plus grande (bon elles sont toutes de la même taille ici..).
+    </p>
+    <div class="spacer"></div>
+    <h3 id="timbre">Son timbre</h3>
+    <p>
+        En 3 mots, le timbre représente la forme du motif élémentaire qui se répète dans un signal sonore, soit la façon
+        dont les molécules vont se mouvoir. Le timbre n'est pas le même entre une trompette et une guitare par exemple,
+        c'est ce qui va permettre de les différencier.
+        Cette différence s'explique par le profil harmonique de ces derniers.
+    </p>
+    <div class="spacer"></div>
+    <h2 id="Dans_le_domaine_fréquentiel">Dans le domaine fréquentiel :</h2>
+    <h3 id="harmoniques">Par ses harmoniques</h3>
+    <p>
+        A l'exception des ondes sinulsoïdales, tous les sons possèdent des harmoniques. Pour faire simple, prenons
+        l'exemple d'un piano. Ce dernier émet un son complexe lorsque le pianiste appuie sur une touche. Voici ce que
+        cela donne sur un spectre audio:
+    </p>
+    <img src="../static/img/nerd/fft_piano.jpg">
+    <p class="keqing">
+        Doc.2: FFT d'un enregistrement d'une note de piano.
+    </p>
+    <p>
+        Vous voyez ces motifs réguliers? C'est ça les harmoniques, à l'excéption de la première (celle avec la fréquence
+        la plus basse) qu'on appelle la fondamentale.
+        Placé à des fréquences avec comme valeur des multiples à la fréquence de la fondamentale, ces harmoniques sont
+        donc responsables du timbre des sons qui nous entoure !
+    </p>
+    <div class="spacer"></div>
+    <h3 id="dynamique">Sa dynamique sonore (ou plage dynamique)</h3>
+    <p>
+        Il existe
+        <a href="https://fr.wikipedia.org/wiki/Dynamique_sonore" target="_blank" class="link">plusieurs types de
+            dynamique sonore</a>,
+        mais ce dernier correspond de manière générale à différence de niveau sonore entre le signal étudié et le bruit
+        ou autres sons indésirables. Il est exprimé en dBSPL dans le cas d'un son réel, et en dBFS dans le domaine
+        numérique.
+    </p>
+    <div></div>
+    <p class="white">
+        Pfiou, voilà je crois qu'on a fait le tour pour les fondamentaux. Il est temps de s'attaquer au sujet principal
+        de cette article: le signal numérique.
+    </p>
+</div>
+<div id="div1-1">
+    <h4>2. Traitement du signal - concepts de base</h4>
+    <h2 id="son_numérique">Un son..numérique ?</h2>
+    <p id="pres">
+        Ok maintenant, imaginez que vous êtes un ingénieur à l'ère des premiers ordinateurs et que vous réfléchissez à
+        la fameuse question de comment stocker un son sur un support numérique. Comment feriez-vous? Et bien peu importe
+        votre réponse, nous allons voir ça tout de suite.
+    </p>
+    <p>
+        Lorsque que l'on veut convertir un signal analogique en un signal numérique, on dit que l'on échantillone et
+        quantifie le signal. Je l'admet du premier coup d'oeil ces noms barbares font un peu peur, mais vous allez voir
+        le principe de base n'est pas très compliqué. Il sont au cœur de ce que l'on va appeller
+        un signal numérique.
+    </p>
+    <p>
+        Lorsque nous étudions un son, ou en fait plein d'autres types d'onde, nous avons vu qu'il peut être représenté
+        sous forme de signal. Le problème, c'est qu'afin de pourvoir le reconstituer parfaitement, il faudrait analyser
+        une infinité de valeurs.
+        Ce signal est en effet continu dans le temps, c'est à dire qu'on pourait "zoomer" sur le signal à l'infini et
+        trouver des détails toujours plus précis. C'est là où intervient l'échantillonage.
+    </p>
+    <div class="spacer"></div>
+    <h3 id="échantillonage">L'échantillonage</h3>
+    <p>
+        L'idée est simple, prendre des valeurs à intervalle régulier, à une certaine fréquence, afin d'avoir de la
+        matière pour reconstruire le signal plus tard: on va alors parler de <strong>taux
+            d'échantillonage</strong>.
+    </p>
+    <p>
+        Cependant, le plus gros du problème va être le suivant: comment extrapoler des données de ces
+        échantillons
+        afin de recontruire un signal qui soit le plus proche du signal d'origine ? On verra ça dans la partie suivante,
+        mais pour le moment,
+        retenez juste qu'<strong>un taux d'échantillonage plus élevé permet de générer des fréquences plus
+            élevées</strong>. En fait, plus la fréquence d'un signal est grande, plus la période associée à cette
+        fréquence est étroite. Il faut donc plus de "données" pour pouvoir la retranscrire.
+    </p>
+    <img src="../static/img/nerd/samples.jpg">
+    <p class="keqing">
+        Doc.3: Signal sonore extrapolé à partir d'échantillons définis au préalable.
+    </p>
+    <div class="spacer"></div>
+    <h3 id="quantification">La quantification</h3>
+    <p>
+        D'ailleurs, un signal analogique n'est pas uniquement continu dans le temps, mais également dans son amplitude.
+        C'est à dire que pour tout point du signal, sa valeur est définie sur l'ensemble des réels, ouais ça fait
+        beaucoup. Pour le traiter, on dit alors qu'on va
+        quantifier le signal.
+    </p>
+    <p>
+        Ce procédé est intrinsèquement lié à l'échantillonage: <strong>il désigne le fait de donner des
+            valeurs discètes aux échantillons qui constituent le signal numérique</strong>. Je m'explique: vous savez
+        probablement qu'un nombre entier ou flottant est codé sur un certain nombre de bits,
+        et que plus ce nombre est élevé, plus on pourra attribuer à ce nombre une valeur grande et précise (je simplifie
+        un peu). Ici, c'est la même chose: les échantillons sont codés sur un certain nombre de bits (généralement 16 ou
+        24 bits). Plus de bits permet d'avoir potentiellement une plus
+        grande "plage dynamique" du fait d'un plus grand nombre de valeurs possible.
+    </p>
+    <div class="spacer"></div>
+    <h3 id="tramage">Optionnel: le tramage (ou <i>Dither</i>) et le noise-shaping</h3>
+    <p>
+        Cette étape n'est pas obligatoire, mais est presque tout le temps utilisée et permet d'améliorer la qualité du
+        signal de sortie.
+    </p>
+    <p>
+        L'idée du <strong>tramage</strong> est la suivante: <strong>rajouter lors du processus de
+            quantification du bruit aléatoire, de tel sorte à remplacer celui causé par l'erreur de
+            quantification.</strong>
+        Il est important de noter que le bruit causé par cet erreur de quantification dépend du signal d'entrée (ce qui
+        est évident, car on prend à chaque fois l'échantillon qui a le niveau sonore le plus proche du signal
+        analogique), ce qui crée des motifs redondants d'erreurs et donc de la distortion harmonique.
+        Appliquer un tramage réduit donc le taux de distortion harmonique, mais augmente le niveau sonore du seuil de
+        bruit.
+    </p>
+    <p>
+
+        Le <strong>noise-shaping</strong> quant à lui est un algorithme très conplexe qui va, un peu comme par
+        magie, <strong>déplacer le bruit généré par le tramage</strong> dans des fréquences soit moins
+        audibles par l'humain (ex:
+        <a href="https://sox.sourceforge.net/SoX/NoiseShaping" target="_blank" class="link">le Shibata
+            noise-shaping</a>),
+        ou soit complètement inaudibles si le signal est suréchantilloné et l'algorithme assez puissant (ex: le LNS15
+        noise-shaping sur HQplayer).
+        Avec du noise-shaping assez performant, on a un peu le meilleur des deux mondes. A titre personnel en revanche,
+        je n'utiliserais pas de noise-shaping si ce dernier déplace le bruit dans la plage de fréquence audible.
+    </p>
+</div>
+<div id="div1-1">
+    <h4>3. Traitement du signal - nouvelles notions</h4>
+    <h2 id="Du_coup,_comment_passer_de_l'un_à_l'autre_?">Du coup, comment passer de l'un à l'autre ?</h2>
+    <p>
+        Formidable ! Maintenant que nous avons cela, nous avons juste à stocker les valeurs des échantillons et la
+        fréquence d'échantillonage dans un fichier et le tour est joué..ou pas.
+    </p>
+    <p>
+        En effet, afin d'éviter d'avoir des soucis lors de cette conversion, certaines règles vont rentrer en compte.
+    </p>
+    <h3 id="théorème_de_Shannon">Le théorème de Shannon (ou Nyquist)</h3>
+    <p>
+        L'un des théorèmes les plus importants dans le traitement du signal. Shannon nous dit la chose suivante:
+    <p id="pres">Il faut que le taux d'échantillonage d'un signal numérique soit strictement supérieur à 2 fois la
+        fréquence la plus élevée du signal d'origine pour que le signal soit
+        correctement interprété.</p>
+    <p>
+        Je ne détaillerai pas pourquoi ce théorème ici, mais ce dernier permet en gros d'empêcher l'aliasing (voyez un
+        peu ça comme une mauvaise interprétation des échantillons). Dans le cas d'une sinulsoïde, si le nombre
+        d'échantillons n'est pas suffisant,
+        une autre fonction sinus pourrait passer par ses points, ce qui générerait des fréquences indésirables lors de
+        la reconstruction du signal. On a donc juste à doubler le taux d'échantillonage et hop, le tour est joué.
+    </p>
+    <p>
+        D'ailleurs, si vous avez un fichier mp3 sur votre ordinateur, regardez ses propriétés: son taux d'échantillonage
+        sera probablement de 44.1kHz :).
+    </p>
+    <img src="../static/img/nerd/aliasing.png">
+    <p class="keqing">
+        Doc.4: Graphique montrant l'aliasing entre une sinulsoïde d'une fréquence f avec avec une autre d'une fréquence
+        plus élévée.
+    </p>
+    <h3 id="suréchantillonage">Le suréchantillonage</h3>
+    <p>
+        (note: On parle ici précisémment de "Oversampling" et non de "Upsampling". En français, les 2 termes sont les
+        mêmes mais
+        <a href="https://www.audiosciencereview.com/forum/index.php?threads/how-does-up-sampling-differ-from-over-sampling.3440/"
+            target="_blank" class="link">ne confondez pas les deux</a> !)
+    </p>
+    <p>
+        Lors de la reconstruction du signal audio, c'est à dire lorsqu'un signal numérique et converti en un signal
+        analogique, il se peut que dans le processus <strong>certaines fréquences dépassent la fréquence de
+            Nyquist</strong> (=Tx d'échantillonage/2).
+        Pour empêcher cela, il est important de suréchantilloner le signal avant pouvoir le moduler.
+    </p>
+    <p>
+        En pratique, un Delta-sigma DAC (le convertisseur numérique analogique que vous avez sur la carte mère de votre
+        PC, télévision, téléphone...) fonctionne sur ce principe: si ce dernier recoit un flux à une fréquence de
+        44.1kHz (le taux le plus commun),
+        ce dernier va donc suréchantilloner ce flux vers le taux d'échantillonage le plus élevé supporté par le DAC (à
+        condition que le ratio de conversion soit de la forme 2^n), soit 88.2kHz (x2 PCM), 176.4kHz (x4 PCM) ou encore
+        705.6kHz (x16 PCM) vous avez compris.
+    </p>
+    <p>
+        En revanche, ce suréchantillonnage crée, dans le domaine fréquentiel et en fonction du ratio de conversion, des
+        "copies" du signal d'origine dans la nouvelle plage disponible.
+    </p>
+    <p>
+        Si vous êtes assez smart, vous pourriez vous dire que ses fréquences sont supérieures à 20kHz et sont donc pas
+        très importantes à atténuer. Mais pensez à l'envers: c'est parce qu'elles ne sont pas audibles qu'il faut les
+        atténuer!
+        Elles pourraient en effet générer de la distortion d'intermodulation sur l'ensemble du spectre (que nous verrons
+        en détail dans la prochaine section).
+    </p>
+    <h3 id="filtre_de_reconstruction">Et enfin, les filtres de reconstruction audio</h3>
+    <img src="../static/img/nerd/Upsampling.png">
+    <p class="keqing">
+        Doc.5: Le principe de suréchantillonage (oversampling) et de filtre de reconstruction.
+    </p>
+    <p id="pres">
+        Ok à partir de maintenant je vous conseille de vous accrocher parce que ça va un peu être le bordel.
+        Je vous rappelle qu'on cherche ici à créer un filtre, de sorte à que toutes les fréquences clone créées au
+        dessus de la fréquence de Nyquist disparaissent, et tout ça en temps réel.
+    </p>
+    <p>
+        <strong>Dans le domaine fréquentiel</strong>, pas besoin de chercher midi à quatorze heures: on
+        applique un filtre passe-bas !
+    </p>
+    <p>
+        Un filtre passe-bas comme son nom l'indique consiste à laisser uniquement passer les fréquences inférieures à
+        une fréquence donnée. L'idéal serait donc d'appliquer un filtre passe-bas aux environs de 20kHz d'une
+        atténuation à la fois instantanée et infinie.
+        <strong>Le problème est que cela est physiquement impossible.</strong> Cela demanderait en effet une
+        puissance de calcul infinie. On est donc ici obligé de faire un compromis entre qualité du filtre, puissance
+        requise et temps de traitement.
+    </p>
+    <p>
+        Néanmoins, cette approche pose un petit bémol: un signal numérique est uniquement constitué d'échantillons,
+        c'est à dire qu'une transformée de Fourier sera requise pour obtenir ce spectre fréquentiel.
+        Pour des soucis de précision, nous allons donc réaliser ce filtre dans le domaine temporel.
+    </p>
+    <p>
+        <strong>Dans le domaine temporel</strong>, je vous propose de voir 3 filtres, chacun présentant une
+        manière différente de reconstituer un signal analogique:
+    </p>
+    <div class="center noborder">
+        <h3 id="ordre_zéro">Le filtre bloqueur d'ordre zéro:</h3>
+        <img src="../static/img/nerd/Zeroorderhold.signal.png" class="small">
+        <p class="keqing">
+            Doc.6: Signal sonore généré par le filtre bloqueur d'ordre zéro, otenu après suréchantillonage
+            (oversampling) non traité.
+        </p>
+        <img src="../static/img/nerd/Zeroorderhold.impulseresponse.png" class="small">
+        <p class="keqing">
+            Doc.7: Réponse impulsionelle généré par le filtre bloqueur d'ordre zéro.
+        </p>
+    </div>
+    <p>
+        Ce filtre (ou plutôt ce non-filtre) conciste ici à garder la valeur discrète de chaque échantillon jusqu'au
+        prochain. Bien qu'il a l'avantage d'être le modèle le plus simple,
+        ce dernier n'est pas fidèle au signal d'origine et créera une grande quantité de distortion, de "clones" du
+        signal d'origine sur toute la plage de fréquences disponible.
+        Sa
+        <a href="https://fr.wikipedia.org/wiki/R%C3%A9ponse_impulsionnelle" target="_blank" class="link">réponse
+            impulsionelle</a>,
+        c'est à dire la façon dont il va interpréter un signal numérique ayant une variation d'amplitude brusque sur un
+        échantillon, est de la forme rectangulaire sur 2 échantillons (voir schéma).
+    </p>
+    <p>
+        Note: en réalité, cette variation d'amplitude ne sera jamais instantanée comme on le représente ici: une
+        infinité de sinulsoïdes serait nécessaire pour reconstituer un tel signal avec la transformée de Fourier.
+    </p>
+    <hr>
+    <div class="center noborder">
+        <h3 id="ordre_un">Le filtre bloqueur d'ordre un:</h3>
+        <img src="../static/img/nerd/Firstorderhold.signal.png" class="small">
+        <p class="keqing">
+            Doc.8: Signal sonore généré par le filtre bloqueur d'ordre un.
+        </p>
+        <img src="../static/img/nerd/Firstorderhold.impulseresponse.png" class="small">
+        <p class="keqing">
+            Doc.7: Réponse impulsionelle généré par le filtre bloqueur d'ordre un.
+        </p>
+    </div>
+    <p>
+        Ce filtre est un peu plus malin: au lieu de garder les valeurs discrètes, on relie les échantillons "en
+        diagonal". Il est plus fidèle que le bloqueur d'ordre zéro (les clones auront un niveau moins élevé),
+        mais génère encore beaucoup de distortion.
+        Sa réponse impulsionelle est donc de forme triangulaire sur 3 échantillons.
+    </p>
+    <p>
+        Note: quand je dis "relier les échantillons", c'est une façon d'imager. Ce processus se fait en fait par la
+        superposition des signaux reconstruits associées à chaque échantillon individuellement (voir réponse
+        impulsionelle), ce qui est déterminé par la méthode ou le filtre utilisé.
+    </p>
+    <hr>
+    <div class="center noborder">
+        <h3 id="filtre_sinc">Le filtre sinc idéal:</h3>
+        <img src="../static/img/nerd/Sinc-function.png" class="small">
+        <p class="keqing">
+            Doc.10: Réponse impulsionelle coupée du filtre sinc.
+        </p>
+    </div>
+    <p>
+        Ah, voilà notre premier véritable filtre: le filtre sinc!
+        Si l'on pouvait le voir en action sur un spectre sonore, on verrait une atténuation infinie et instantanée au
+        niveau de la fréquence de Nyquist avant suréchantillonage: les "clones" seraient totalement supprimés.
+        Il s'agit donc d'un filtre idéal. En effet, en supposant que notre DAC est parfait, la réponse en fréquence et
+        la forme du signal de sortie serait exactement la même que celui du signal analogique de départ
+        (dans la limite des fréquences disponibles).
+        En plus, comme on a suréchantilloné le signal, pas de problème d'aliasing dans le processus de reconstruction.
+        Néanmoins, <strong>le filtre n'est en pratique pas réalisable</strong> car la durée du pré-écho et
+        post-écho du filtre, notamment lorsque l'on regarde sa réponse impulsionelle, est infinie dans le temps.
+        Il s'oppose donc à un filtre FIR (à réponse impulsionelle finie), qui est lui utilisable simplement dans un
+        circuit.
+    </p>
+    <p>
+        Remarque: Un Delta-sigma DAC classique possède un filtre FIR avec une atténuation d'environ 60dBFS et une
+        <a href=http://msp.ucsd.edu/techniques/v0.11/book-html/node130.html target="_blank" class="link">bande de
+            transition</a>
+        d'une centaine de Hertz. Certains logiciels comme
+        <a href="https://www.signalyst.com/consumer.html" target="_blank" class="link">HQPlayer</a>
+        (petite pub c'est sûrement la meilleure découverte que j'ai fait de ma vie lol)
+        utilisent la puissance d'un ordinateur pour créer des filtres de meilleur qualité (certains ont plus de 200dBFS
+        d'atténuation sur une bande de transition de quelques dizaines de Hertz !).
+        <br>
+        Nous sommes maintenant prêt à transformer notre signal numérique en signal analogique.
+    </p>
+    <div class="spacer"></div>
+    <h3 id="résumé">Résumons.</h3>
+    <p>
+        Pour qu'un signal numérique soit converti en signal analogique, on doit:
+    </p>
+    <ol>
+        <li class="white">échantilloner le signal et quantifier les échantillons,</li>
+        <li class="white">appliquer si on le souhaite un tramage,</li>
+        <li class="white">suréchantilloner le signal pour éviter l'aliasing,</li>
+        <li class="white">et enfin appliquer un filtre pour reconstruire le signal numérique en un signal analogique.
+        </li>
+        <li class="white">(Note: Avant de produire un signal analogique, le signal est suréchantilloné à une fréquence
+            extrêmement élevée, mais quantifié sur très peu de bits (généralement entre 1 et 6 bits), pour rendre la
+            conception du
+            DAC
+            moins fastidieuse.)
+
+    </ol>
+</div>
+<div id="div1-1">
+    <h4>4. Traitement du signal - types de distortions et sortie audio</h4>
+    <h2 id="Bon_très_bien_mais,_ça_donne_quoi_au_final_?">Bon très bien mais, ça donne quoi finalement ?</h2>
+    <p>
+        Cool! On a vu les étapes fondamentales de la reconstruction audio. Il y en a évidemment beaucoup plus au sein
+        d'un DAC et d'un l'amplificateur, surtout d'un point de vue électrique,
+        mais ils sortent un peu du sujet ici.
+        <br>
+        Bref. Supposons maintenant qu'on a notre signal analogique reconstruit sous forme de signal électrique à la
+        sortie du DAC (en supposant aussi qu'il a un amplificateur
+        intégré), et que vous souhaitez l'analyser.
+        Vous jouez donc une sinulsoïde d'une fréquence de 1000Hz sur votre ordinateur relié au DAC, reliez sa sortie
+        vers un analyseur audio et vous regardez le spectre généré.
+        Et là, surprise, vous voyez ça:
+    </p>
+    <img src="../static/img/nerd/Audio-gd NFB28.28.png" class="small">
+    <p class="keqing">
+        Doc.11: Signal sonore et FFT du signal de sortie d'un Delta-sigma DAC déffectueux. En entrée: une sinulsoïde de
+        1000Hz. Tiré du site
+        <a href="https://www.audiosciencereview.com/forum/index.php?threads/review-and-measurements-of-audio-gd-nfb28-28-dac-and-headphone-amp.5147/"
+            target="_blank" class="link">Audio Science Review</a>
+    </p>
+    <p>
+        Aïe, ce n'est pas très beau à voir. A l'oeil nu, le signal sonore semble normal, mais son spectre sonore
+        beaucoup moins.
+        Certes, ce n'est pas parce qu'un DAC/AMP a plus de distortion qu'un autre qu'il sera forcémment moins aimé, j'en
+        parle plus dans mon prochain article. Mais à des niveaux de distortions aussi élevés, j'en doute.
+        Examinons cela de plus près en regardant ce qui compose vraiment ce signal.
+    </p>
+    <h3 id="bruit">Le bruit</h3>
+    <p>
+        Le bruit sur le spectre audio est représenté par la bande qui s'étend sur toute la plage de fréquences. Le bruit
+        est présent dans tous les systèmes audio, il est impossible de s'en débarasser totalement.
+        Ce dernier est notamment causé par des perturbations électromagnétiques (en gros les ondes Wi-Fi, radio,
+        micro-ondes), une utilisation intensive du PC, l'erreur de quantification
+        (cad. la différence entre la valeur de l'échantillon et la valeur réelle du signal en ce point, ce qui va se
+        retranscrire en bruit), ou encore le
+        <a href="#tramage" class="link">tramage</a>
+        appliqué lors de la requantification du signal dans l'étape de suréchantillonage.
+        Son niveau est ici très faible (en dessous de 120dBFS), mais peut varier selon ses conditions utilisation.
+    </p>
+    <h3 id="thd">La distortion harmonique</h3>
+    <p>
+        Ici ce n'est pas très compliqué: dès qu'on retrouve des harmoniques qui, soit ne devraient pas y être comme
+        c'est le cas ici, soit n'ont pas le bon niveau sonore, on parle de distortion harmonique.
+        Subjectivement, un profil harmonique "organisé" peut s'avérer agréable à écouter: les amplificateurs à tubes en
+        sont un parfait exemple.
+        On a tout l'inverse ici: en contraste avec les autres, la deuxième harmonique a un niveau sonore bien plus élevé
+        que les autres (plus de 70dBFS au dessus du seuil de bruit!!). Ce type de distortion est causé par une
+        reconstruction déformée du signal.
+    </p>
+    <h3 id="imd">La distortion d'intermodulation</h3>
+    <p>
+        Ce type de distortion est
+        <a href="https://sound-au.com/articles/intermodulation2.htm" target="_blank" class="link">de loin la plus
+            complexe à comprendre</a>,
+        mais pour faire simple, il désigne tous les pics de fréquence qui n'ont pas de rapport harmonique avec la
+        fréquence généré. Pour la mesurer, on choisit en entrée un signal possédant 2 sinulsoïdes n'ayant pas de
+        multiple commun (généralement 60Hz et 7kHz),
+        comme représenté ci-dessous.
+    </p>
+    <br>
+    <img src="../static/img/nerd/IMD_SMPTE_FFT.webp">
+    <p class="keqing">
+        Doc.12: FFT du signal de sortie d'un Delta-sigma DAC. En entrée: un test SMPTE, cad. 2 sinulsoïdes à 60Hz et
+        7kHz. Tiré du site
+        <a href="https://headphones.com/" target="_blank" class="link">Headphones.com</a>.
+    </p>
+    <p>
+        Comme pour la distortion harmonique, ce type de distortion est causé par une reconstruction déformée du signal.
+    </p>
+    <h3 id="en_bonus">En bonus: </h3>
+    <p>
+        Il existe encore des dizaines et des dizaines d'autres façons de mesurer un son, toutes plus compliquées les
+        unes que les autres. Si vous voulez en apprendre plus, je vous renvoie vers ce
+        <a href="https://headphones.com/blogs/features/the-glossary-of-audio-measurements-and-terms" target="_blank"
+            class="link">glossaire</a> réalisé par GoldenSound, un reviewer passionant et d'une grande intelligence.
+    </p>
+    <h3>Ok mais moi ce que je veux c'est du son !</h3>
+    <p>
+        Pas de problème! En réalité, on a déjà fait le gros du travail. Il nous reste juste à amplifier le signal à
+        l'aide d'un amplificateur (ou Amp), de le relier à un casque ou à des haut-parleurs et
+        on est bon. Je parlerai en détail vers la fin de l'article de ce qui fait la différence entre un casque et un
+        autre.
+</div>
+<div id="div1-1">
+    <h4>5. Traitement du signal - stockage des données</h4>
+    <h2 id="formats_audio">Les différents formats audio</h2>
+    <p>
+        En revanche, il est bien nécessaire de stocker ses échantillons quelque part, mais où ?
+    </p>
+    <h2 id="La_partie_fun_démonter_des_idées_reçues_sur_les_formats_audio">La partie fun: démonter des idées reçues sur
+        les formats audio</h2>
+    <p>
+        Pour cette section, je souhaite introduire le sujet en cassant des idées reçues promulgués par l'industrie et
+        autres journalistes ou ""ingénieurs"" incompétants (non je ne te cible pas PPGarcia c'est faux), et croyez-moi
+        on a de la matière.
+        J'en profiterais donc pour expliquer quelques caractéristiques d'un fichier audio et autres nuances.
+    </p>
+    <h3 id="dog_res">Le "Hi-res" audio</h3>
+    <p>
+        Oh putain, vous ne savez pas le nombre de conneries que j'entends à ce sujet, que ca soit sur des forums, des
+        sites de grandes marques (genre Sony) ou sur des articles. D'abord, voici ce qu'est le Hi-res audio selon le
+        site Cobra (cliquez
+        <a href="https://cdn.discordapp.com/attachments/832585481485025333/1111799065504649236/hires.jpg"
+            target="_blank" class="link">ici</a>
+        pour l'agrandir).
+    </p>
+    <div class="center noborder">
+        <img src="../static/img/nerd/hires.jpg" class="small">
+        <p class="keqing">
+            Je refuse que ce truc prenne plus de place sur mon site.
+        </p>
+    </div>
+    <p>
+        Ok d'abord, cela est indiqué plus bas sur le site mais un fichier dit "Hi-res" (je parle pas de la certification
+        inutile présente sur quelques casques) désigne un fichier avec un taux d'échantillonage égal ou supérieur à
+        96kHz
+        et une profondeur binaire (= nombre de bits pour coder un échantillon) de 24 bits. Ca, c'est vrai, mais c'est
+        plutôt les claims de ce site parmis PLEIN d'autres qui me dérangent.
+    </p>
+    <br>
+    <h3>"Le format CD est dépassé"</h3>
+    <p>
+        D'abord, le format CD serait "largement dépassés par les fichiers High-Res". Je rapelle que le format CD (ou
+        PCM) classique à un taux de 44.1kHz sur 16 bits. Il peut au même titre que le Hi-res être stocké sous un format
+        conteneur (ou codec) comme le
+        <a href="https://xiph.org/flac/" target="_blank" class="link">Flac</a>
+        ou le
+        <a href="https://fr.wikipedia.org/wiki/Waveform_Audio_File_Format" target="_blank" class="link">WAV</a>.
+        Eh bien mon cher ami, encore aujourd'hui <strong>aucune étude n'a montré que l'humain était capable de
+            faire la différence entre les 2 formats audio, et je mets ma main à couper que vous ne la ferez pas non
+            plus</strong>.
+        Et puis, même si l'on supposait que c'était le cas, la différence serait tellement minime que cela n'aurait pas
+        d'importance.
+        <br>
+        Pire, ce format est stupide sur plusieurs aspects et dégrade l'expérience de l'utilisateur:
+        <br>
+        <br>
+        D'un point de vue pratique, un fichier Flac (codec de compression sans pertes) en 96/24 (Hi-res) est 2 à 3 fois
+        plus lourd qu'un fichier Flac 44.1/16 et peut même parfois
+        <a href="https://cdn.discordapp.com/attachments/832585481485025333/1111825030729441310/windirstat_Z53IRVMnr9.jpg"
+            target="_blank" class="link">dépasser les 100Mo</a>
+        pour une seule musique.
+        Pour ordre de référence, une musique téléchargée en .mp3 ou via Spotify en .ogg à 320Kbps prend environ 8Mo.
+        Désolé mais je n'ai pas envie d'acheter un SSD externe juste pour écouter de la K-Pop.
+        <br>
+        <br>
+        D'un point de vue technique, niveau Bullshit autour du Hi-res, on bat des records. Rappellez-vous le principe de
+        filtre de reconstruction audio. Son but est de filtrer les fréquences inaudibles afin qu'elles ne causent pas
+        de distortion sur le spectre audible lors de la reconstruction du signal. <strong>Le Hi-res fait
+            l'exact inverse</strong>. Juste expliquez-moi: <strong>quel est l'intéret pour un fichier audio,
+            d'avoir des informations dans
+            une plage de fréquences qui n'est pas audible par l'humain</strong> ?
+    </p>
+    <br>
+    <h3>"Couper ses hautes fréquences dégrade le timbre"</h3>
+    <p>
+        A cette question, le site son-video.com répond la chose suivante: "les fréquences harmoniques situées au-delà de
+        20 kHz, [sont] essentielles notamment pour la détermination du timbre" et la "couleur du son".
+        Il est vrai si nous appliquons une transformée de Fourier inversée avec toutes les fréquences présentes dans un
+        fichier avec un taux de 96kHz, le timbre du signal et donc du son ne sera pas le même.
+        <strong>Mais encore une fois, cela n'a aucune importance car l'oreille humaine n'entend pas ces
+            fréquences</strong> et agit comme un filtre passe-bas naturel.
+        <br>
+        <br>
+        Maintenant <strong>parlons un peu de ce diagramme</strong>, et vraiment rien ne va. Nous avons vu plus
+        haut que <strong>lorsque qu'un Delta-Sigma DAC reconstruit le signal,
+            ce dernier non seulement le suréchantillone, mais utilise un Filtre FIR</strong>, et non un (non-)filtre
+        bloqueur d'ordre zéro.
+        Vous voyez où je veux en venir: lorsque le signal est reconstruit, ce dernier est parfaitement lisse et sans
+        variation pseudo-instantanée du signal qui causerait une réflexion du signal dans les hautes fréquences.
+        Evidemment, je sais très bien que le graphique est fait de tel sorte à venter les grands mérites du Hi-Res qui
+        dépassent largement les autres formats audio...
+        <br>
+        D'ailleurs, mettre le mp3 ici n'a aucun sens: les codecs avec compression avec perte comme celui-ci modifient le
+        signal numérique d'un point de vue fréquentiel et temporel (transitoires, réponse en phase), mais sa
+        reconstruction ne change pas des autres,
+        il est de toute façon presque tout le temps encapsulé dans un fichier 44.1/16 comme un fichier Flac au format
+        CD.
+        <br>
+        <br>
+        Enfin, <strong>une meilleure profondeur binaire ne rendra pas le son plus "détaillé" comme j'ai pu
+            l'entendre 37 fois, mais permet uniquement de réduire l'erreur de quantification lors de la numérisation
+            du signal, phénomène produisant du bruit et du bruit uniquement à partir du moment où le signal numérique
+            est tramé</strong>. En revanche, même en 16 bits et sans noise-shaping, son niveau sonore est tellement bas
+        (autour de -90dBFS) que <strong>vous ne l'entenderez jamais.</strong>
+        Avec un noise-shaper, c'est à dire rappellons-le l'algorithme qui va déplacer le bruit vers des fréquences moins
+        ou inaudibles, ce nombre peut encore diminuer
+        <a href="http://archimago.blogspot.com/2019/02/measurements-look-at-hqplayer-325.html" target="_blank"
+            class="link">de plus de 10dBFS</a>.
+        Si vous entendez encore du bruit, changez d'amplificateur ou utlisez des écouteurs moins sensibles, mais
+        n'achetez PAS de fichiers "Hi-res".
+        <br>
+        <br>
+        Note: si vous voulez plus d'informations sur tout ça, je vous recommande l'excellente vidéo du Projet Home
+        Studio, il l'explique 10 fois mieux que moi:
+        <a href="https://www.youtube.com/watch?v=og7TBLQHRXo" target="_blank"
+            class="link">https://www.youtube.com/watch?v=og7TBLQHRXo</a>.
+        <br>
+        <br>
+        Mais du coup, on pourrait se dire que si le Hi-res existe, il doit y avoir une raison non? Et en effet il y en a
+        une: il permet effectivement "d’obtenir un rendu sonore au plus proche de la volonté des ingénieurs en studio".
+        Sauf que très ironiquement,
+        <strong>ces ingénieurs en studio s'en foutent royalement d'avoir une dite meilleure qualité audio avec
+            le Hi-res</strong>. Pour eux, travailler avec un tel flux audio (96kHz/24 bits) permet uniquement:
+    <ul>
+        <li>
+            D'avoir plus d'espace d'un point de vue fréquentiel pour appliquer un filtre passe-bas et favoriser la
+            prévention de l'aliasing, c'est pour cette raison qu'une grande partie des fichiers Hi-res possèdent quand
+            même une forte atténuation pas naturelle après 20kHz
+            (<a href="https://cdn.discordapp.com/attachments/832585481485025333/1112031332965560491/UgSd80MLTs.jpg"
+                target="_blank" class="link">exemple pas du tout statistiquement représentatif mais ça vous donne quand
+                même une idée</a>)
+        </li>
+        <li>
+            D'avoir une grande plage dynamique, non pas parce le son sera plus "détaillé", mais pour rendre plus facile
+            le mixage et le mastering en empêchant entre autres des problèmes
+            d'<a href="https://en.wikipedia.org/wiki/Clipper_(electronics)" target="_blank" class="link">écrêtage</a>.
+        </li>
+    </ul>
+    <p>
+        Pour conclure, n'achetez pas des fichiers ou de services de streaming uniquement parce qu'ils se ventent d'être
+        "Hi-res". Le Hi-res est moins pratique et peut indirectemment délivrer une qualité audio inférieure à un fichier
+        en 44.1kHz sur 16 bits
+        classique (sans compression). Au sujet des casques certifiés Hi-res, ces labels sont pûrement et simplement du
+        marketing: ils certifient que le casque peut produire des sons de 20kHz à 40kHz sans
+        <a href="https://en.wikipedia.org/wiki/Roll-off" target="_blank" class="link">roll off</a>
+        majeur. Bon on l'a déjà montré c'est parfaitement inutile de produire des fréquences aussi élevées. Pour les DAC
+        en revanche, supporter un taux d'échantillonage plus important est bénéfique car il permet de correctement
+        pouvoir suréchantilloner le signal.
+    </p>
+    </p>
+    <h3 id="mp3">Le diabolique MP3</h3>
+    <p>
+        Le MP3 est un codec audio qui va, en plus de compresser nos petits échantillons, va transformer ce signal de
+        sorte à qu'il prenne moins de place. Comme les autres codec avec compression avec perte comme le AAC ou le OGG,
+        il est défini par son débit binaire (ou bitrate) allant de 8kbps à 320kbps.
+        <br>
+        <br>
+        Maintenant voici mon avis sur le MP3, rien de scientifique du tout. D'abord le fait que le format MP3 soit
+        vraiment pire que le format OGG
+        <a href="Ressources/Comparaison ogg mp3/Comparaison rapide entre le format OGG 320 et MP3 320 vs lossless.html"
+            target="_blank" class="link">est fortement débatable</a>, je vous laisse faire votre propre avis.
+        En revanche, il serait faux de dire que la différence entre ces formats avec perte et un format sans perte est
+        flagrante, je n'ai d'ailleurs pas réussi à faire la distinction
+        entre les deux lors d'un
+        <a href="https://abx.digitalfeed.net/lame.320.html" target="_blank" class="link">ABX test</a>
+        (je vous invite à le faire !).
+        En revanche, tous les fichiers avec un bitrate inférieur ou égal à 256kbps sont je trouve facilement
+        discernables et commencent à être génants.
+        <br>
+        Maintenant, amusons nous un petit peu. Je vous ai compilé des arguments bidon qui resortent souvent plus montrer
+        à quel point "ouuuu attention le mp3 c'est nul".
+        <br>
+    <h3>"Le MP3 compresse la plage dynamique"</h3>
+    <p>
+        Nous a dit notre cher PPGarcia dans
+        <a href="https://www.youtube.com/watch?v=L2AEtkrvRJI" target="_blank" class="link">cette vidéo</a>.
+        Ok, cette vidéo à 6 ans et il a probablement changé d'avis sur le MP3, mais je décide de tout de même la mettre
+        ici car elle m'avait vraiment marqué à l'époque. Il est important de noter qu'ici,
+        le journaliste utilise le mot "dynamique" mais en ne désignant pas la différence de niveau entre le niveau
+        sonore le plus haut et le seuil de bruit,
+        mais plutôt entre les différents instruments de la musique. Bon dans les deux cas
+        <a href="Ressources/Comparaison ogg mp3/Comparaison rapide entre le format OGG 320 et MP3 320 vs lossless.html#doc19"
+            class="link">c'est totalement faux</a>.
+        En revanche, il est vrai que le MP3 à tendance à écrêter lorsqu'une
+        musique est convertie dans ce format car ce dernier ne laisse pas assez de
+        <a href="https://en.wikipedia.org/wiki/Headroom_(audio_signal_processing)" target="_blank"
+            class="link">headroom</a>
+        avant de traiter le signal, mais l'échelle est bien trop petite et puis cela n'a pas trop de rapport finalement.
+        <br>
+        Le MP3 semble aussi profiter de l'effet de
+        <a href="https://en.wikipedia.org/wiki/Auditory_masking" class="link">masquage auditif</a>
+        pour retirer des fréquences inaudibles, mais je ne peux pas l'attester car je n'ai pas réussi à le tester
+        proprement.
+        Mais là encore, pas vraiment de rapport avec la dynamique dont il parle.
+    </p>
+    </p>
+</div>
+<div id="vide"></div>
+<script>classe("jpdb", "actif")</script>
+{% endblock %}
